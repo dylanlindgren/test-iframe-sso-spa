@@ -5,12 +5,13 @@
     <meta charset="UTF-8" />
     <title>Test iFrame SSO SPA</title>
     <link rel="stylesheet" type="text/css" href="/main.css" />
+    <link rel="icon" href="https://www.dylanlindgren.com/wp-content/uploads/2023/10/DylanLindgrenLogo.svg" sizes="32x32">
 </head>
 
 <body>
 
     <div id="header">
-        <h1>Test iFrame SSO SPA</h1>
+        <img src="https://www.dylanlindgren.com/wp-content/uploads/2023/10/DylanLindgrenLogo.svg" /><h1>Test iFrame SSO SPA</h1>
     </div>
     <div id="controls">
 
@@ -21,7 +22,7 @@
         <button id="btn-knowledgeArticle" disabled="true" onclick="knowledgeArticle()">Knowledge Article</button>
 
         <div class="hidden" id="auth0-gated-content">
-            <p>You are currently <strong>logged in</strong>.</p>
+            <p>You are currently <strong>logged in</strong> to this app as <span id="ipt-userName"></span>.</p>
         </div>
 
     </div>

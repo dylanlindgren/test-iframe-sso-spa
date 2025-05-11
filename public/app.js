@@ -4,20 +4,35 @@ let page = null;
 let auth0Client = null;
 let isAuthenticated = null;
 let config = null;
+let user = null;
 
 window.onload = async () => {
 
     const response = await fetchConfig();
     config = await response.json();
 
+    let requestForm = document.getElementById("requestForm");
+    requestForm.action = `${config.instance}/navpage.do?redirect_uri=/welcome.do&failure_uri=/welcome.do`;
+
     auth0Client = await auth0.createAuth0Client({
         domain: config.domain,
         clientId: config.clientId
     });
 
+    const query = window.location.search;
+
+    if (query.includes("code=") && query.includes("state=")) {
+        await auth0Client.handleRedirectCallback();
+        window.history.replaceState({}, document.title, "/");
+    }
+
     isAuthenticated = await auth0Client.isAuthenticated();
 
+    console.log('isAuthenticated', isAuthenticated);
+
     if (isAuthenticated) {
+
+        user = await auth0Client.getUser();
 
         document.getElementById("auth0-gated-content").classList.remove("hidden");
 
@@ -27,25 +42,20 @@ window.onload = async () => {
             }
         });
 
-        let requestForm = document.getElementById("requestForm");
-        requestForm.action = `${config.instance}/navpage.do?redirect_uri=/welcome.do&failure_uri=/welcome.do`;
-        console.log(requestForm);
         var hiddenInput = document.createElement("input");
         hiddenInput.type = "hidden";
         hiddenInput.name = "X_USER_TOKEN";
         hiddenInput.value = accessToken;
-        document.getElementById("requestForm").appendChild(hiddenInput);
-        document.getElementById("requestForm").submit();
+        requestForm.appendChild(hiddenInput);
+        requestForm.submit();
         document.getElementById("oidc_frame_em").addEventListener("load", function (e) {
             console.log("Loaded OIDC frame");
-            document.getElementById("requestForm").remove();
+            requestForm.remove();
             document.getElementById("oidc_frame_em").remove();
             document.getElementById("pleaseLogin").remove();
             document.getElementById("sn-gated-content").classList.remove("hidden");
             home();
         });
-
-
 
     } else {
         document.getElementById("auth0-gated-content").classList.remove("add");
@@ -53,23 +63,18 @@ window.onload = async () => {
     }
 
     updateUI();
-
-    const query = window.location.search;
-
-    if (query.includes("code=") && query.includes("state=")) {
-        await auth0Client.handleRedirectCallback();
-        home();
-        updateUI();
-        window.history.replaceState({}, document.title, "/");
-    }
 }
 
-const updateUI = () => {
+const updateUI = async () => {
     document.getElementById("btn-login").disabled = isAuthenticated;
     document.getElementById("btn-logout").disabled = !isAuthenticated;
     document.getElementById("btn-home").disabled = !isAuthenticated || page === 'home';
     document.getElementById("btn-catalogItem").disabled = !isAuthenticated || page === 'catalogItem';
     document.getElementById("btn-knowledgeArticle").disabled = !isAuthenticated || page === 'knowledgeArticle';
+
+    if (isAuthenticated) {
+        document.getElementById("ipt-userName").innerHTML = user.nickname;
+    }
 };
 
 const login = async () => {
