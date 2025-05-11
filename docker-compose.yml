@@ -7,7 +7,7 @@ services:
       - 80
       - 443
     volumes:
-      - public:/usr/share/nginx/html
+      - ./public:/usr/share/nginx/html
     networks:
       - net
     restart: unless-stopped
