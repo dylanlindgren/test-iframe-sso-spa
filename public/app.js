@@ -49,7 +49,6 @@ window.onload = async () => {
         requestForm.appendChild(hiddenInput);
         requestForm.submit();
         document.getElementById("oidc_frame_em").addEventListener("load", function (e) {
-            console.log("Loaded OIDC frame");
             requestForm.remove();
             document.getElementById("oidc_frame_em").remove();
             document.getElementById("pleaseLogin").remove();
@@ -86,11 +85,14 @@ const login = async () => {
 };
 
 const logout = () => {
-    auth0Client.logout({
-        logoutParams: {
-            returnTo: window.location.origin
-        }
+    document.getElementById("mainframe").addEventListener("load", function (e) {
+        auth0Client.logout({
+            logoutParams: {
+                returnTo: window.location.origin
+            }
+        });
     });
+    document.getElementById("mainframe").setAttribute("src", `${config.instance}/logout.do?sysparm_goto_url=${config.instance}/sp`);
 };
 
 const home = () => {
