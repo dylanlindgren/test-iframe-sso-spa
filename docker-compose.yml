@@ -3,9 +3,6 @@ version: "3.7"
 services:
   test-iframe-sso-spa:
     image: nginx
-    ports:
-      - 80
-      - 443
     volumes:
       - ./public:/usr/share/nginx/html
     networks:
