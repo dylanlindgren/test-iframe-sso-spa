@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  test-iframe-sso-spa:
+    image: nginx
+    container-name: test-iframe-sso-spa
+    ports:
+      - 80
+      - 443
+    volumes:
+      - public:/usr/share/nginx/html
+    networks:
+      - net
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${TEST_IFRAME_SSO_SPA_HOST}
+      LETSENCRYPT_HOST: ${TEST_IFRAME_SSO_SPA_HOST}
+      LETSENCRYPT_EMAIL: ${TEST_IFRAME_SSO_SPA_LETSENCRYPT_EMAIL}

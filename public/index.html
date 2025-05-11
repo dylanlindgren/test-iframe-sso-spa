@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Test iFrame SSO SPA</title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+
+<body>
+
+    <div id="header">
+        <h1>Test iFrame SSO SPA</h1>
+    </div>
+    <div id="controls">
+
+        <button id="btn-login" disabled="true" onclick="login()">Log in</button>
+        <button id="btn-logout" disabled="true" onclick="logout()">Log out</button>
+        <button id="btn-home" disabled="true" onclick="home()">Home</button>
+        <button id="btn-catalogItem" disabled="true" onclick="catalogItem()">Catalog Item</button>
+        <button id="btn-knowledgeArticle" disabled="true" onclick="knowledgeArticle()">Knowledge Article</button>
+
+        <div class="hidden" id="auth0-gated-content">
+            <p>You are currently <strong>logged in</strong>.</p>
+        </div>
+
+    </div>
+
+    <div id="content">
+
+        <iframe id="oidc_frame_em" style="display:none" name="my_iframe"></iframe>
+        <form target="my_iframe" id="requestForm" style="display:none"
+            method="post">
+            <input type="submit" value="Submit" />
+        </form>
+
+        <div class="hidden" id="sn-gated-content">
+            <iframe frameborder="0" id="mainframe"></iframe>
+        </div>
+
+        <div id="pleaseLogin">Please login to view the content.</div>
+
+    </div>
+
+
+</body>
+
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+<script src="./app.js"></script>
+
+</html>
