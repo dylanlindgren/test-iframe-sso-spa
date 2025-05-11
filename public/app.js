@@ -12,7 +12,7 @@ window.onload = async () => {
     config = await response.json();
 
     let requestForm = document.getElementById("requestForm");
-    requestForm.action = `${config.instance}/navpage.do?redirect_uri=/welcome.do&failure_uri=/welcome.do`;
+    requestForm.action = `${config.instance}/navpage.do?redirect_uri=/sp&failure_uri=/sp`;
 
     auth0Client = await auth0.createAuth0Client({
         domain: config.domain,
