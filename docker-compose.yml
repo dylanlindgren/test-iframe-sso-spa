@@ -3,7 +3,6 @@ version: "3.7"
 services:
   test-iframe-sso-spa:
     image: nginx
-    container-name: test-iframe-sso-spa
     ports:
       - 80
       - 443
