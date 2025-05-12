@@ -12,7 +12,7 @@ window.onload = async () => {
     config = await response.json();
 
     let requestForm = document.getElementById("requestForm");
-    requestForm.action = `${config.instance}/navpage.do?redirect_uri=/sp&failure_uri=/sp`;
+    requestForm.action = `${config.instance}/navpage.do?redirect_uri=sp&failure_uri=sp`;
 
     auth0Client = await auth0.createAuth0Client({
         domain: config.domain,
@@ -35,6 +35,8 @@ window.onload = async () => {
         user = await auth0Client.getUser();
 
         document.getElementById("auth0-gated-content").classList.remove("hidden");
+
+        updateUI();
 
         let accessToken = await auth0Client.getTokenSilently({
             authorizationParams: {
@@ -92,7 +94,7 @@ const logout = () => {
             }
         });
     });
-    document.getElementById("mainframe").setAttribute("src", `${config.instance}/logout.do?sysparm_goto_url=${config.instance}/sp`);
+    document.getElementById("mainframe").setAttribute("src", `${config.instance}/logout.do?sysparm_goto_url=sp`);
 };
 
 const home = () => {
